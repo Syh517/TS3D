@@ -1,0 +1,112 @@
+Pod: mysql-0
+  Container: xtrabackup
+    CPU 使用: 0
+    内存使用: 364Ki
+  Container: mysql
+    CPU 使用: 9200124n
+    内存使用: 751988Ki
+
+Pod: mysql-1
+  Container: mysql
+    CPU 使用: 9790686n
+    内存使用: 590404Ki
+  Container: xtrabackup
+    CPU 使用: 0
+    内存使用: 364Ki
+
+Pod: mysql-2
+  Container: xtrabackup
+    CPU 使用: 0
+    内存使用: 368Ki
+  Container: mysql
+    CPU 使用: 9596027n
+    内存使用: 591092Ki
+
+Pod: mysql-5
+  Container: mysql
+    CPU 使用: 9168510n
+    内存使用: 586332Ki
+  Container: xtrabackup
+    CPU 使用: 0
+    内存使用: 368Ki
+
+Pod: mysql-3
+  Container: xtrabackup
+    CPU 使用: 0
+    内存使用: 368Ki
+  Container: mysql
+    CPU 使用: 8848839n
+    内存使用: 586312Ki
+
+Pod: mysql-4
+  Container: mysql
+    CPU 使用: 10076247n
+    内存使用: 584780Ki
+  Container: xtrabackup
+    CPU 使用: 0
+    内存使用: 364Ki
+
+Pod: mysql-6
+  Container: xtrabackup
+    CPU 使用: 0
+    内存使用: 364Ki
+  Container: mysql
+    CPU 使用: 9957693n
+    内存使用: 580116Ki
+
+Pod: mysql-3
+  Container: mysql
+    CPU 使用: 10057012n
+    内存使用: 586312Ki
+  Container: xtrabackup
+    CPU 使用: 0
+    内存使用: 368Ki
+
+Pod: mysql-4
+  Container: mysql
+    CPU 使用: 9906822n
+    内存使用: 584692Ki
+  Container: xtrabackup
+    CPU 使用: 0
+    内存使用: 364Ki
+
+Pod: mysql-6
+  Container: mysql
+    CPU 使用: 10623733n
+    内存使用: 580328Ki
+  Container: xtrabackup
+    CPU 使用: 0
+    内存使用: 364Ki
+
+Pod: mysql-0
+  Container: xtrabackup
+    CPU 使用: 0
+    内存使用: 364Ki
+  Container: mysql
+    CPU 使用: 8883556n
+    内存使用: 751988Ki
+
+Pod: mysql-1
+  Container: xtrabackup
+    CPU 使用: 0
+    内存使用: 364Ki
+  Container: mysql
+    CPU 使用: 8907465n
+    内存使用: 590404Ki
+
+Pod: mysql-2
+  Container: xtrabackup
+    CPU 使用: 0
+    内存使用: 368Ki
+  Container: mysql
+    CPU 使用: 9199687n
+    内存使用: 591092Ki
+
+Pod: mysql-5
+  Container: mysql
+    CPU 使用: 9639178n
+    内存使用: 586404Ki
+  Container: xtrabackup
+    CPU 使用: 0
+    内存使用: 368Ki
+

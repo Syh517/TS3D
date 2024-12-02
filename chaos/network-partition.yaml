@@ -1,0 +1,21 @@
+apiVersion: chaos-mesh.org/v1alpha1
+kind: NetworkChaos
+metadata:
+  name: network-partition
+spec:
+  action: partition
+  mode: all
+  selector:
+    pods:
+      default:
+        - mysql-0
+  direction: to
+  target:
+    mode: all
+    selector:
+      pods:
+        default:
+          - mysql-1
+          - mysql-2
+          - mysql-3
+  duration: '30s'

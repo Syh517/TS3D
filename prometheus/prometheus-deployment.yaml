@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prometheus-deployment
+  namespace: monitoring
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: prometheus-server
+  template:
+    metadata:
+      labels:
+        app: prometheus-server
+    spec:
+      serviceAccountName: prometheus-sa
+      containers:
+        - name: prometheus
+          image: prom/prometheus:latest
+          imagePullPolicy: IfNotPresent   # 只在本地没有该镜像时拉取
+          args:
+            - "--config.file=/etc/prometheus/prometheus.yml"
+            - "--web.listen-address=:9091"  # 修改监听地址
+            - "--storage.tsdb.path=/prometheus/"
+          ports:
+            - containerPort: 9091  # 修改容器端口
+          volumeMounts:
+            - name: prometheus-config-volume
+              mountPath: /etc/prometheus/
+            - name: prometheus-storage-volume
+              mountPath: /prometheus/
+      volumes:
+        - name: prometheus-config-volume
+          configMap:
+            name: prometheus-server-conf
+        - name: prometheus-storage-volume
+          emptyDir: {}
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: prometheus-service
+  namespace: monitoring
+  labels:
+    app: prometheus-server
+spec:
+  selector:
+    app: prometheus-server
+  ports:
+    - protocol: TCP
+      port: 9091  # 修改服务端口
+      targetPort: 9091  # 修改目标端口

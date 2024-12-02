@@ -1,0 +1,14 @@
+apiVersion: chaos-mesh.org/v1alpha1
+kind: StressChaos
+metadata:
+  name: cpu-stress
+spec:
+  mode: all
+  selector:
+    labelSelectors:
+      app: mysql
+  stressors:
+    cpu:
+      workers: 4
+      load: 50
+  duration: '30s'

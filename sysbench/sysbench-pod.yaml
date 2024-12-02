@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: sysbench-pod
+spec:
+  containers:
+  - name: sysbench
+    image: severalnines/sysbench
+    command: ["sleep"]
+    args: ["infinity"]

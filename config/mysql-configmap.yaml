@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mysql
+  labels:
+    app: mysql
+data:
+  master.cnf: |
+    # Apply this config only on the master.
+    [mysqld]
+    log-bin
+    bind-address = 0.0.0.0
+    port = 3306
+
+  slave.cnf: |
+    # Apply this config only on slaves.
+    [mysqld]
+    super-read-only
+    bind-address = 0.0.0.0
+    port = 3306
+    
+  .my.cnf: |
+    [client]
+    user=root
+    host=127.0.0.1
+    port=3306

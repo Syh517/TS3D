@@ -1,0 +1,42 @@
+apiVersion: chaos-mesh.org/v1alpha1
+kind: NetworkChaos
+metadata:
+  name: network-delay
+spec:
+  action: delay
+  mode: all
+  selector:
+    namespaces:
+      - default
+    labelSelectors:
+      app: mysql
+  delay:
+    latency: '10ms'
+    correlation: '100'
+    jitter: '0ms'
+  duration: '30s'
+
+
+
+
+# kind: NetworkChaos
+# apiVersion: chaos-mesh.org/v1alpha1
+# metadata:
+#   namespace: default
+#   name: network-delay
+#   annotations:
+#     experiment.chaos-mesh.org/pause: 'false'
+# spec:
+#   selector:
+#     namespaces:
+#       - default
+#     labelSelectors:
+#       app: mysql
+#   mode: all
+#   action: delay
+#   duration: 30s
+#   delay:
+#     latency: 10ms
+#     correlation: '0'
+#     jitter: 0ms
+#   direction: to
