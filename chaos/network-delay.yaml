@@ -14,7 +14,7 @@ spec:
     latency: '10ms'
     correlation: '100'
     jitter: '0ms'
-  duration: '30s'
+  duration: '300s'
 
 
 

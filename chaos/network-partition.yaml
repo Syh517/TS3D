@@ -18,4 +18,4 @@ spec:
           - mysql-1
           - mysql-2
           - mysql-3
-  duration: '30s'
+  duration: '300s'

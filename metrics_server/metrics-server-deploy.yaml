@@ -23,7 +23,8 @@ spec:
       hostNetwork: true
       containers:
         - name: metrics-server
-          image: eipwork/metrics-server:v0.3.7
+          image: docker.io/eipwork/metrics-server:v0.3.7
+          imagePullPolicy: IfNotPresent   # 只在本地没有该镜像时拉取
           # command:
           # - /metrics-server
           # - --kubelet-insecure-tls

@@ -46,25 +46,25 @@ class MyUser(HttpUser):
                 )
                 now = datetime.now()
                 log="数据库连接成功"
-                file.write(f"[{now}][{self.node}][normal_select][info][{log}]\n")
+                file.write(f"[{now}][{self.node}][database_abnormal][abnormal_frequency][info][{log}]\n")
                 logger.info("数据库连接成功")
                 return conn
             except MySQLError as e:
                 now = datetime.now()
                 log="数据库连接失败"
-                file.write(f"[{now}][{self.node}][normal_select][error][{log}][{e}]\n")
+                file.write(f"[{now}][{self.node}][database_abnormal][abnormal_frequency][error][{log}][{e}]\n")
                 logger.error(f"数据库连接失败: {e}")
                 return None
 
-    @task(3)
+    @task
     def select_drivers(self):
         with open("/home/yyy/mysql/data/logs/logs.txt",'a') as file, open("/home/yyy/mysql/data/logs/sqls.txt",'a') as file2:
             # 执行数据库查询测试逻辑
             if self.db_conn is None:
                 now = datetime.now()
-                log="数据库连接未初始化"
-                file.write(f"[{now}][{self.node}][normal_select][error][{log}]\n")
-                logger.error("数据库连接未初始化")
+                log="数据库连接过多"
+                file.write(f"[{now}][{self.node}][database_abnormal][abnormal_frequency][error][{log}]\n")
+                logger.error("数据库连接过多")
                 return
 
             try:
@@ -77,38 +77,38 @@ class MyUser(HttpUser):
                     if result:
                         now = datetime.now()
                         log="driver数据查询成功"
-                        file.write(f"[{now}][{self.node}][normal_select][info][{log}]\n")
+                        file.write(f"[{now}][{self.node}][database_abnormal][abnormal_frequency][info][{log}]\n")
                         logger.info(f"driver数据查询成功")
-                        file2.write(f"{now}\t{self.node}\tnormal_select\t'{sql}'\t0\n")
+                        file2.write(f"{now}\t{self.node}\tabnormal_frequency\t'{sql}'\t1\n")
                     else:
                         now = datetime.now()
                         log="未查询到driver数据"
-                        file.write(f"[{now}][{self.node}][normal_select][info][{log}]\n")
+                        file.write(f"[{now}][{self.node}][database_abnormal][abnormal_frequency][info][{log}]\n")
                         logger.info("未查询到driver数据")
-                        file2.write(f"{now}\t{self.node}\tnormal_select\t'{sql}'\t0\n")
+                        file2.write(f"{now}\t{self.node}\tabnormal_frequency\t'{sql}'\t1\n")
             except OSError as os_err:
                 now = datetime.now()
                 log="driver数据查询失败"
-                file.write(f"[{now}][{self.node}][normal_select][error][{log}][{os_err}]\n")
+                file.write(f"[{now}][{self.node}][database_abnormal][abnormal_frequency][error][{log}][{os_err}]\n")
                 logger.error(f"OSError: {os_err}")
-                file2.write(f"{now}\t{self.node}\tnormal_select\t'{sql}'\t0\n")
+                file2.write(f"{now}\t{self.node}\tabnormal_frequency\t'{sql}'\t1\n")
             except MySQLError as e:
                 now = datetime.now()
                 log="driver数据查询失败"
-                file.write(f"[{now}][{self.node}][normal_select][error][{log}][{e}]\n")
+                file.write(f"[{now}][{self.node}][database_abnormal][abnormal_frequency][error][{log}][{e}]\n")
                 logger.error(f"driver数据查询失败: {e}")
-                file2.write(f"{now}\t{self.node}\tnormal_select\t'{sql}'\t0\n")
+                file2.write(f"{now}\t{self.node}\tabnormal_frequency\t'{sql}'\t1\n")
 
 
-    @task(3)
+    @task
     def select_users(self):
         with open("/home/yyy/mysql/data/logs/logs.txt",'a') as file, open("/home/yyy/mysql/data/logs/sqls.txt",'a') as file2:
             # 执行数据库查询测试逻辑
             if self.db_conn is None:
                 now = datetime.now()
-                log="数据库连接未初始化"
-                file.write(f"[{now}][{self.node}][normal_select][error][{log}]\n")
-                logger.error("数据库连接未初始化")
+                log="数据库连接过多"
+                file.write(f"[{now}][{self.node}][database_abnormal][abnormal_frequency][error][{log}]\n")
+                logger.error("数据库连接过多")
                 return
 
             try:
@@ -121,38 +121,38 @@ class MyUser(HttpUser):
                     if result:
                         now = datetime.now()
                         log="user数据查询成功"
-                        file.write(f"[{now}][{self.node}][normal_select][info][{log}]\n")
+                        file.write(f"[{now}][{self.node}][database_abnormal][abnormal_frequency][info][{log}]\n")
                         logger.info(f"user数据查询成功")
-                        file2.write(f"{now}\t{self.node}\tnormal_select\t'{sql}'\t0\n")
+                        file2.write(f"{now}\t{self.node}\tabnormal_frequency\t'{sql}'\t1\n")
                     else:
                         now = datetime.now()
                         log="未查询到user数据"
-                        file.write(f"[{now}][{self.node}][normal_select][info][{log}]\n")
+                        file.write(f"[{now}][{self.node}][database_abnormal][abnormal_frequency][info][{log}]\n")
                         logger.info("未查询到user数据")
-                        file2.write(f"{now}\t{self.node}\tnormal_select\t'{sql}'\t0\n")
+                        file2.write(f"{now}\t{self.node}\tabnormal_frequency\t'{sql}'\t1\n")
             except OSError as os_err:
                 now = datetime.now()
                 log="user数据查询失败"
-                file.write(f"[{now}][{self.node}][normal_select][error][{log}][{os_err}]\n")
+                file.write(f"[{now}][{self.node}][database_abnormal][abnormal_frequency][error][{log}][{os_err}]\n")
                 logger.error(f"OSError: {os_err}")
-                file2.write(f"{now}\t{self.node}\tnormal_select\t'{sql}'\t0\n")
+                file2.write(f"{now}\t{self.node}\tabnormal_frequency\t'{sql}'\t1\n")
             except MySQLError as e:
                 now = datetime.now()
                 log="user数据查询失败"
-                file.write(f"[{now}][{self.node}][normal_select][error][{log}][{e}]\n")
+                file.write(f"[{now}][{self.node}][database_abnormal][abnormal_frequency][error][{log}][{e}]\n")
                 logger.error(f"user数据查询失败: {e}")
-                file2.write(f"{now}\t{self.node}\tnormal_select\t'{sql}'\t0\n")
+                file2.write(f"{now}\t{self.node}\tabnormal_frequency\t'{sql}'\t1\n")
 
     
-    @task(5)
+    @task
     def select_orders(self):
         with open("/home/yyy/mysql/data/logs/logs.txt",'a') as file, open("/home/yyy/mysql/data/logs/sqls.txt",'a') as file2:
             # 执行数据库查询测试逻辑
             if self.db_conn is None:
                 now = datetime.now()
-                log="数据库连接未初始化"
-                file.write(f"[{now}][{self.node}][normal_select][error][{log}]\n")
-                logger.error("数据库连接未初始化")
+                log="数据库连接过多"
+                file.write(f"[{now}][{self.node}][database_abnormal][abnormal_frequency][error][{log}]\n")
+                logger.error("数据库连接过多")
                 return
 
             try:
@@ -165,37 +165,37 @@ class MyUser(HttpUser):
                     if result:
                         now = datetime.now()
                         log="order数据查询成功"
-                        file.write(f"[{now}][{self.node}][normal_select][info][{log}]\n")
+                        file.write(f"[{now}][{self.node}][database_abnormal][abnormal_frequency][info][{log}]\n")
                         logger.info(f"order数据查询成功")
-                        file2.write(f"{now}\t{self.node}\tnormal_select\t'{sql}'\t0\n")
+                        file2.write(f"{now}\t{self.node}\tabnormal_frequency\t'{sql}'\t1\n")
                     else:
                         now = datetime.now()
                         log="未查询到order数据"
-                        file.write(f"[{now}][{self.node}][normal_select][info][{log}]\n")
+                        file.write(f"[{now}][{self.node}][database_abnormal][abnormal_frequency][info][{log}]\n")
                         logger.info("未查询到order数据")
-                        file2.write(f"{now}\t{self.node}\tnormal_select\t'{sql}'\t0\n")
+                        file2.write(f"{now}\t{self.node}\tabnormal_frequency\t'{sql}'\t1\n")
             except OSError as os_err:
                 now = datetime.now()
                 log="order数据查询失败"
-                file.write(f"[{now}][{self.node}][normal_select][error][{log}][{os_err}]\n")
+                file.write(f"[{now}][{self.node}][database_abnormal][abnormal_frequency][error][{log}][{os_err}]\n")
                 logger.error(f"OSError: {os_err}")
-                file2.write(f"{now}\t{self.node}\tnormal_select\t'{sql}'\t0\n")
+                file2.write(f"{now}\t{self.node}\tabnormal_frequency\t'{sql}'\t1\n")
             except MySQLError as e:
                 now = datetime.now()
                 log="order数据查询失败"
-                file.write(f"[{now}][{self.node}][normal_select][error][{log}][{e}]\n")
+                file.write(f"[{now}][{self.node}][database_abnormal][abnormal_frequency][error][{log}][{e}]\n")
                 logger.error(f"order数据查询失败: {e}")
-                file2.write(f"{now}\t{self.node}\tnormal_select\t'{sql}'\t0\n")
+                file2.write(f"{now}\t{self.node}\tabnormal_frequency\t'{sql}'\t1\n")
 
-    @task(5)
+    @task
     def select_payments(self):
         with open("/home/yyy/mysql/data/logs/logs.txt",'a') as file, open("/home/yyy/mysql/data/logs/sqls.txt",'a') as file2:
             # 执行数据库查询测试逻辑
             if self.db_conn is None:
                 now = datetime.now()
-                log="数据库连接未初始化"
-                file.write(f"[{now}][{self.node}][normal_select][error][{log}]\n")
-                logger.error("数据库连接未初始化")
+                log="数据库连接过多"
+                file.write(f"[{now}][{self.node}][database_abnormal][abnormal_frequency][error][{log}]\n")
+                logger.error("数据库连接过多")
                 return
 
             try:
@@ -208,26 +208,26 @@ class MyUser(HttpUser):
                     if result:
                         now = datetime.now()
                         log="payment数据查询成功"
-                        file.write(f"[{now}][{self.node}][normal_select][info][{log}]\n")
+                        file.write(f"[{now}][{self.node}][database_abnormal][abnormal_frequency][info][{log}]\n")
                         logger.info(f"payment数据查询成功")
-                        file2.write(f"{now}\t{self.node}\tnormal_select\t'{sql}'\t0\n")
+                        file2.write(f"{now}\t{self.node}\tabnormal_frequency\t'{sql}'\t1\n")
                     else:
                         now = datetime.now()
                         log="未查询到payment数据"
-                        file.write(f"[{now}][{self.node}][normal_select][info][{log}]\n")
+                        file.write(f"[{now}][{self.node}][database_abnormal][abnormal_frequency][info][{log}]\n")
                         logger.info("未查询到payment数据")
-                        file2.write(f"{now}\t{self.node}\tnormal_select\t'{sql}'\t0\n")
+                        file2.write(f"{now}\t{self.node}\tabnormal_frequency\t'{sql}'\t1\n")
             except OSError as os_err:
                 now = datetime.now()
                 log="payment数据查询失败"
-                file.write(f"[{now}][{self.node}][normal_select][error][{log}][{os_err}]\n")
+                file.write(f"[{now}][{self.node}][database_abnormal][abnormal_frequency][error][{log}][{os_err}]\n")
                 logger.error(f"OSError: {os_err}")
-                file2.write(f"{now}\t{self.node}\tnormal_select\t'{sql}'\t0\n")
+                file2.write(f"{now}\t{self.node}\tabnormal_frequency\t'{sql}'\t1\n")
             except MySQLError as e:
                 now = datetime.now()
                 log="payment数据查询失败"
-                file.write(f"[{now}][{self.node}][normal_select][error][{log}][{e}]\n")
+                file.write(f"[{now}][{self.node}][database_abnormal][abnormal_frequency][error][{log}][{e}]\n")
                 logger.error(f"payment数据查询失败: {e}")
-                file2.write(f"{now}\t{self.node}\tnormal_select\t'{sql}'\t0\n")
+                file2.write(f"{now}\t{self.node}\tabnormal_frequency\t'{sql}'\t1\n")
 
 

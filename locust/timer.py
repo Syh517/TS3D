@@ -1,8 +1,22 @@
 from apscheduler.schedulers.background import BackgroundScheduler
 from datetime import datetime
+import subprocess
+
+def run_kubectl_command(command):
+    try:
+        result = subprocess.run(command, shell=True, capture_output=False, text=True, check=True)
+        print("Locust 命令执行成功")
+        return result.stdout
+    except subprocess.CalledProcessError as e:
+        print(f"Locust 命令执行失败: {e}")
+        return f"Command failed with error: {e.stderr}"
+
+
+normal="locust -f normal_all.py --headless -u 100 -r 10 -t 10s"
 
 # 定义正常时段执行的函数
 def normal_function():
+    run_kubectl_command(normal)
     print(f"Normal function executed at {datetime.now()}")
 
 # 定义异常时段执行的函数

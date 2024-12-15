@@ -3,7 +3,7 @@ from mysql.connector import Error
 
 # 配置数据库连接参数
 config = {
-    # 'host': '172.20.0.2',  # MySQL Node的IP地址
+    # 'host': '172.18.0.2',  # MySQL Node的IP地址
     # 'port': '30007',       # NodePort
 
     'host': '127.0.0.1',  # MySQL Pod的IP地址
@@ -11,7 +11,7 @@ config = {
 
     'user': 'root',        # MySQL用户名 
     'password': '',        # MySQL密码
-    'database': 'first'    # 要操作的数据库名称
+    'database': 'taxi'    # 要操作的数据库名称
 }
 # 创建连接
 connection = mysql.connector.connect(**config)
@@ -22,18 +22,17 @@ if connection.is_connected():
     cursor = connection.cursor()
 
     # 编写SQL语句
-    sql = "CREATE TABLE IF NOT EXISTS u (\
-        id INT AUTO_INCREMENT PRIMARY KEY,\
-        username VARCHAR(50) NOT NULL\
-    );"
+    sql = "select concat(round(sum(data_length)/1024/1024,2)) as data from information_schema.tables;"
 
 
     # 执行SQL语句
     cursor.execute(sql)
+    disk_usage = cursor.fetchall()[0][0]
+    print(disk_usage)
     
-    # 提交事务
-    connection.commit()
-    print("执行成功")
+    # # 提交事务
+    # connection.commit()
+    # print("执行成功")
     
     # 关闭游标和连接
     cursor.close()

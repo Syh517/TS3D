@@ -11,12 +11,6 @@ data:
     log-bin
     bind-address = 0.0.0.0
     port = 3306
-    innodb_buffer_pool_size = 3G
-    innodb_log_file_size = 512M
-    innodb_flush_log_at_trx_commit = 2
-    slow_query_log = 1
-    long_query_time = 2
-
 
   slave.cnf: |
     # Apply this config only on slaves.
@@ -24,11 +18,6 @@ data:
     super-read-only
     bind-address = 0.0.0.0
     port = 3306
-    innodb_buffer_pool_size = 3G
-    innodb_log_file_size = 512M
-    innodb_flush_log_at_trx_commit = 2
-    slow_query_log = 1
-    long_query_time = 2
     
   .my.cnf: |
     [client]

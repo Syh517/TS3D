@@ -11,4 +11,4 @@ spec:
     memory:
       workers: 4
       size: "256MB"
-  duration: '30s'
+  duration: '300s'

@@ -22,7 +22,7 @@ class MyUser(HttpUser):
 
     def on_start(self):
         # 初始化数据库连接
-        self.node="172.18.0.2:30007"
+        self.node="10.244.0.34:3306"
         self.db_conn = self.create_db_connection()
 
     def on_stop(self):
@@ -37,8 +37,8 @@ class MyUser(HttpUser):
         with open("/home/yyy/mysql/data/logs/logs.txt",'a') as file:
             try:
                 conn = pymysql.connect(
-                    host=self.get_config("DB_HOST", "172.18.0.2"),
-                    port=int(self.get_config("DB_PORT", 30007)),
+                    host=self.get_config("DB_HOST", "127.0.0.1"),
+                    port=int(self.get_config("DB_PORT", 3308)),
                     user=self.get_config("DB_USER", "root"),
                     password=self.get_config("DB_PASSWORD", ""),
                     database="taxi",
@@ -47,13 +47,13 @@ class MyUser(HttpUser):
                 )
                 now = datetime.now()
                 log="数据库连接成功"
-                file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_2][info][{log}]\n")
+                file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_pod_2][info][{log}]\n")
                 logger.info("数据库连接成功")
                 return conn
             except MySQLError as e:
                 now = datetime.now()
                 log="数据库连接失败"
-                file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_2][error][{log}][{e}]\n")
+                file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_pod_2][error][{log}][{e}]\n")
                 logger.error(f"数据库连接失败: {e}")
                 return None
 
@@ -64,7 +64,7 @@ class MyUser(HttpUser):
             if self.db_conn is None:
                 now = datetime.now()
                 log="数据库连接未初始化"
-                file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_2][error][{log}]\n")
+                file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_pod_2][error][{log}]\n")
                 logger.error("数据库连接未初始化")
                 return
 
@@ -80,21 +80,21 @@ class MyUser(HttpUser):
                     if result:
                         now = datetime.now()
                         log=f"{function_name}数据查询成功"
-                        file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_2][info][{log}]\n")
+                        file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_pod_2][info][{log}]\n")
                         logger.info(f"{function_name}数据查询成功")
-                        file2.write(f"{now}\t{self.node}\tabnormal_select_2\t'{sql}'\t1\n")
+                        file2.write(f"{now}\t{self.node}\tabnormal_select_pod_2\t'{sql}'\t1\n")
                     else:
                         now = datetime.now()
                         log=f"未查询到{function_name}数据"
-                        file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_2][info][{log}]\n")
+                        file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_pod_2][info][{log}]\n")
                         logger.info(f"未查询到{function_name}数据")
-                        file2.write(f"{now}\t{self.node}\tabnormal_select_2\t'{sql}'\t1\n")
+                        file2.write(f"{now}\t{self.node}\tabnormal_select_pod_2\t'{sql}'\t1\n")
             except MySQLError as e:
                 now = datetime.now()
                 log=f"{function_name}数据查询失败"
-                file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_2][error][{log}][{e}]\n")
+                file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_pod_2][error][{log}][{e}]\n")
                 logger.error(f"{function_name}数据查询失败: {e}")
-                file2.write(f"{now}\t{self.node}\tabnormal_select_2\t'{sql}'\t1\n")
+                file2.write(f"{now}\t{self.node}\tabnormal_select_pod_2\t'{sql}'\t1\n")
 
 
     @task
@@ -104,7 +104,7 @@ class MyUser(HttpUser):
             if self.db_conn is None:
                 now = datetime.now()
                 log="数据库连接未初始化"
-                file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_2][error][{log}]\n")
+                file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_pod_2][error][{log}]\n")
                 logger.error("数据库连接未初始化")
                 return
 
@@ -120,21 +120,21 @@ class MyUser(HttpUser):
                     if result:
                         now = datetime.now()
                         log=f"{function_name}数据查询成功"
-                        file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_2][info][{log}]\n")
+                        file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_pod_2][info][{log}]\n")
                         logger.info(f"{function_name}数据查询成功")
-                        file2.write(f"{now}\t{self.node}\tabnormal_select_2\t'{sql}'\t1\n")
+                        file2.write(f"{now}\t{self.node}\tabnormal_select_pod_2\t'{sql}'\t1\n")
                     else:
                         now = datetime.now()
                         log=f"未查询到{function_name}数据"
-                        file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_2][info][{log}]\n")
+                        file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_pod_2][info][{log}]\n")
                         logger.info(f"未查询到{function_name}数据")
-                        file2.write(f"{now}\t{self.node}\tabnormal_select_2\t'{sql}'\t1\n")
+                        file2.write(f"{now}\t{self.node}\tabnormal_select_pod_2\t'{sql}'\t1\n")
             except MySQLError as e:
                 now = datetime.now()
                 log=f"{function_name}数据查询失败"
-                file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_2][error][{log}][{e}]\n")
+                file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_pod_2][error][{log}][{e}]\n")
                 logger.error(f"{function_name}数据查询失败: {e}")
-                file2.write(f"{now}\t{self.node}\tabnormal_select_2\t'{sql}'\t1\n")
+                file2.write(f"{now}\t{self.node}\tabnormal_select_pod_2\t'{sql}'\t1\n")
 
 
     @task
@@ -144,7 +144,7 @@ class MyUser(HttpUser):
             if self.db_conn is None:
                 now = datetime.now()
                 log="数据库连接未初始化"
-                file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_2][error][{log}]\n")
+                file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_pod_2][error][{log}]\n")
                 logger.error("数据库连接未初始化")
                 return
 
@@ -160,21 +160,21 @@ class MyUser(HttpUser):
                     if result:
                         now = datetime.now()
                         log=f"{function_name}数据查询成功"
-                        file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_2][info][{log}]\n")
+                        file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_pod_2][info][{log}]\n")
                         logger.info(f"{function_name}数据查询成功")
-                        file2.write(f"{now}\t{self.node}\tabnormal_select_2\t'{sql}'\t1\n")
+                        file2.write(f"{now}\t{self.node}\tabnormal_select_pod_2\t'{sql}'\t1\n")
                     else:
                         now = datetime.now()
                         log=f"未查询到{function_name}数据"
-                        file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_2][info][{log}]\n")
+                        file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_pod_2][info][{log}]\n")
                         logger.info(f"未查询到{function_name}数据")
-                        file2.write(f"{now}\t{self.node}\tabnormal_select_2\t'{sql}'\t1\n")
+                        file2.write(f"{now}\t{self.node}\tabnormal_select_pod_2\t'{sql}'\t1\n")
             except MySQLError as e:
                 now = datetime.now()
                 log=f"{function_name}数据查询失败"
-                file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_2][error][{log}][{e}]\n")
+                file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_pod_2][error][{log}][{e}]\n")
                 logger.error(f"{function_name}数据查询失败: {e}")
-                file2.write(f"{now}\t{self.node}\tabnormal_select_2\t'{sql}'\t1\n")
+                file2.write(f"{now}\t{self.node}\tabnormal_select_pod_2\t'{sql}'\t1\n")
 
 
     @task
@@ -184,7 +184,7 @@ class MyUser(HttpUser):
             if self.db_conn is None:
                 now = datetime.now()
                 log="数据库连接未初始化"
-                file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_2][error][{log}]\n")
+                file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_pod_2][error][{log}]\n")
                 logger.error("数据库连接未初始化")
                 return
 
@@ -200,21 +200,21 @@ class MyUser(HttpUser):
                     if result:
                         now = datetime.now()
                         log=f"{function_name}数据查询成功"
-                        file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_2][info][{log}]\n")
+                        file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_pod_2][info][{log}]\n")
                         logger.info(f"{function_name}数据查询成功")
-                        file2.write(f"{now}\t{self.node}\tabnormal_select_2\t'{sql}'\t1\n")
+                        file2.write(f"{now}\t{self.node}\tabnormal_select_pod_2\t'{sql}'\t1\n")
                     else:
                         now = datetime.now()
                         log=f"未查询到{function_name}数据"
-                        file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_2][info][{log}]\n")
+                        file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_pod_2][info][{log}]\n")
                         logger.info(f"未查询到{function_name}数据")
-                        file2.write(f"{now}\t{self.node}\tabnormal_select_2\t'{sql}'\t1\n")
+                        file2.write(f"{now}\t{self.node}\tabnormal_select_pod_2\t'{sql}'\t1\n")
             except MySQLError as e:
                 now = datetime.now()
                 log=f"{function_name}数据查询失败"
-                file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_2][error][{log}][{e}]\n")
+                file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_pod_2][error][{log}][{e}]\n")
                 logger.error(f"{function_name}数据查询失败: {e}")
-                file2.write(f"{now}\t{self.node}\tabnormal_select_2\t'{sql}'\t1\n")
+                file2.write(f"{now}\t{self.node}\tabnormal_select_pod_2\t'{sql}'\t1\n")
 
 
     @task
@@ -224,7 +224,7 @@ class MyUser(HttpUser):
             if self.db_conn is None:
                 now = datetime.now()
                 log="数据库连接未初始化"
-                file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_2][error][{log}]\n")
+                file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_pod_2][error][{log}]\n")
                 logger.error("数据库连接未初始化")
                 return
 
@@ -236,28 +236,28 @@ class MyUser(HttpUser):
                             FROM orders
                             GROUP BY user_id;'''
                     sql0=re.sub(r'\s+', ' ', sql).strip()
-
+                    
                     # 执行查询操作
                     cursor.execute(sql)
                     result = cursor.fetchall()
                     if result:
                         now = datetime.now()
                         log=f"{function_name}数据查询成功"
-                        file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_2][info][{log}]\n")
+                        file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_pod_2][info][{log}]\n")
                         logger.info(f"{function_name}数据查询成功")
-                        file2.write(f"{now}\t{self.node}\tabnormal_select_2\t'{sql0}'\t1\n")
+                        file2.write(f"{now}\t{self.node}\tabnormal_select_pod_2\t'{sql0}'\t1\n")
                     else:
                         now = datetime.now()
                         log=f"未查询到{function_name}数据"
-                        file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_2][info][{log}]\n")
+                        file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_pod_2][info][{log}]\n")
                         logger.info(f"未查询到{function_name}数据")
-                        file2.write(f"{now}\t{self.node}\tabnormal_select_2\t'{sql0}'\t1\n")
+                        file2.write(f"{now}\t{self.node}\tabnormal_select_pod_2\t'{sql0}'\t1\n")
             except MySQLError as e:
                 now = datetime.now()
                 log=f"{function_name}数据查询失败"
-                file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_2][error][{log}][{e}]\n")
+                file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_pod_2][error][{log}][{e}]\n")
                 logger.error(f"{function_name}数据查询失败: {e}")
-                file2.write(f"{now}\t{self.node}\tabnormal_select_2\t'{sql0}'\t1\n")
+                file2.write(f"{now}\t{self.node}\tabnormal_select_pod_2\t'{sql0}'\t1\n")
 
 
     @task
@@ -267,7 +267,7 @@ class MyUser(HttpUser):
             if self.db_conn is None:
                 now = datetime.now()
                 log="数据库连接未初始化"
-                file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_2][error][{log}]\n")
+                file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_pod_2][error][{log}]\n")
                 logger.error("数据库连接未初始化")
                 return
 
@@ -286,21 +286,21 @@ class MyUser(HttpUser):
                     if result:
                         now = datetime.now()
                         log=f"{function_name}数据查询成功"
-                        file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_2][info][{log}]\n")
+                        file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_pod_2][info][{log}]\n")
                         logger.info(f"{function_name}数据查询成功")
-                        file2.write(f"{now}\t{self.node}\tabnormal_select_2\t'{sql0}'\t1\n")
+                        file2.write(f"{now}\t{self.node}\tabnormal_select_pod_2\t'{sql0}'\t1\n")
                     else:
                         now = datetime.now()
                         log=f"未查询到{function_name}数据"
-                        file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_2][info][{log}]\n")
+                        file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_pod_2][info][{log}]\n")
                         logger.info(f"未查询到{function_name}数据")
-                        file2.write(f"{now}\t{self.node}\tabnormal_select_2\t'{sql0}'\t1\n")
+                        file2.write(f"{now}\t{self.node}\tabnormal_select_pod_2\t'{sql0}'\t1\n")
             except MySQLError as e:
                 now = datetime.now()
                 log=f"{function_name}数据查询失败"
-                file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_2][error][{log}][{e}]\n")
+                file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_pod_2][error][{log}][{e}]\n")
                 logger.error(f"{function_name}数据查询失败: {e}")
-                file2.write(f"{now}\t{self.node}\tabnormal_select_2\t'{sql0}'\t1\n")
+                file2.write(f"{now}\t{self.node}\tabnormal_select_pod_2\t'{sql0}'\t1\n")
 
 
 
@@ -311,7 +311,7 @@ class MyUser(HttpUser):
             if self.db_conn is None:
                 now = datetime.now()
                 log="数据库连接未初始化"
-                file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_2][error][{log}]\n")
+                file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_pod_2][error][{log}]\n")
                 logger.error("数据库连接未初始化")
                 return
 
@@ -331,21 +331,21 @@ class MyUser(HttpUser):
                     if result:
                         now = datetime.now()
                         log=f"{function_name}数据查询成功"
-                        file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_2][info][{log}]\n")
+                        file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_pod_2][info][{log}]\n")
                         logger.info(f"{function_name}数据查询成功")
-                        file2.write(f"{now}\t{self.node}\tabnormal_select_2\t'{sql0}'\t1\n")
+                        file2.write(f"{now}\t{self.node}\tabnormal_select_pod_2\t'{sql0}'\t1\n")
                     else:
                         now = datetime.now()
                         log=f"未查询到{function_name}数据"
-                        file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_2][info][{log}]\n")
+                        file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_pod_2][info][{log}]\n")
                         logger.info(f"未查询到{function_name}数据")
-                        file2.write(f"{now}\t{self.node}\tabnormal_select_2\t'{sql0}'\t1\n")
+                        file2.write(f"{now}\t{self.node}\tabnormal_select_pod_2\t'{sql0}'\t1\n")
             except MySQLError as e:
                 now = datetime.now()
                 log=f"{function_name}数据查询失败"
-                file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_2][error][{log}][{e}]\n")
+                file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_pod_2][error][{log}][{e}]\n")
                 logger.error(f"{function_name}数据查询失败: {e}")
-                file2.write(f"{now}\t{self.node}\tabnormal_select_2\t'{sql0}'\t1\n")
+                file2.write(f"{now}\t{self.node}\tabnormal_select_pod_2\t'{sql0}'\t1\n")
 
 
 
@@ -356,7 +356,7 @@ class MyUser(HttpUser):
             if self.db_conn is None:
                 now = datetime.now()
                 log="数据库连接未初始化"
-                file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_2][error][{log}]\n")
+                file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_pod_2][error][{log}]\n")
                 logger.error("数据库连接未初始化")
                 return
 
@@ -376,21 +376,21 @@ class MyUser(HttpUser):
                     if result:
                         now = datetime.now()
                         log=f"{function_name}数据查询成功"
-                        file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_2][info][{log}]\n")
+                        file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_pod_2][info][{log}]\n")
                         logger.info(f"{function_name}数据查询成功")
-                        file2.write(f"{now}\t{self.node}\tabnormal_select_2\t'{sql0}'\t1\n")
+                        file2.write(f"{now}\t{self.node}\tabnormal_select_pod_2\t'{sql0}'\t1\n")
                     else:
                         now = datetime.now()
                         log=f"未查询到{function_name}数据"
-                        file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_2][info][{log}]\n")
+                        file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_pod_2][info][{log}]\n")
                         logger.info(f"未查询到{function_name}数据")
-                        file2.write(f"{now}\t{self.node}\tabnormal_select_2\t'{sql0}'\t1\n")
+                        file2.write(f"{now}\t{self.node}\tabnormal_select_pod_2\t'{sql0}'\t1\n")
             except MySQLError as e:
                 now = datetime.now()
                 log=f"{function_name}数据查询失败"
-                file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_2][error][{log}][{e}]\n")
+                file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_pod_2][error][{log}][{e}]\n")
                 logger.error(f"{function_name}数据查询失败: {e}")
-                file2.write(f"{now}\t{self.node}\tabnormal_select_2\t'{sql0}'\t1\n")
+                file2.write(f"{now}\t{self.node}\tabnormal_select_pod_2\t'{sql0}'\t1\n")
 
 
 
@@ -401,7 +401,7 @@ class MyUser(HttpUser):
             if self.db_conn is None:
                 now = datetime.now()
                 log="数据库连接未初始化"
-                file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_2][error][{log}]\n")
+                file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_pod_2][error][{log}]\n")
                 logger.error("数据库连接未初始化")
                 return
 
@@ -417,21 +417,21 @@ class MyUser(HttpUser):
                     if result:
                         now = datetime.now()
                         log=f"{function_name}数据查询成功"
-                        file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_2][info][{log}]\n")
+                        file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_pod_2][info][{log}]\n")
                         logger.info(f"{function_name}数据查询成功")
-                        file2.write(f"{now}\t{self.node}\tabnormal_select_2\t'{sql}'\t1\n")
+                        file2.write(f"{now}\t{self.node}\tabnormal_select_pod_2\t'{sql}'\t1\n")
                     else:
                         now = datetime.now()
                         log=f"未查询到{function_name}数据"
-                        file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_2][info][{log}]\n")
+                        file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_pod_2][info][{log}]\n")
                         logger.info(f"未查询到{function_name}数据")
-                        file2.write(f"{now}\t{self.node}\tabnormal_select_2\t'{sql}'\t1\n")
+                        file2.write(f"{now}\t{self.node}\tabnormal_select_pod_2\t'{sql}'\t1\n")
             except MySQLError as e:
                 now = datetime.now()
                 log=f"{function_name}数据查询失败"
-                file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_2][error][{log}][{e}]\n")
+                file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_pod_2][error][{log}][{e}]\n")
                 logger.error(f"{function_name}数据查询失败: {e}")
-                file2.write(f"{now}\t{self.node}\tabnormal_select_2\t'{sql}'\t1\n")
+                file2.write(f"{now}\t{self.node}\tabnormal_select_pod_2\t'{sql}'\t1\n")
 
 
     @task
@@ -441,7 +441,7 @@ class MyUser(HttpUser):
             if self.db_conn is None:
                 now = datetime.now()
                 log="数据库连接未初始化"
-                file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_2][error][{log}]\n")
+                file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_pod_2][error][{log}]\n")
                 logger.error("数据库连接未初始化")
                 return
 
@@ -461,21 +461,21 @@ class MyUser(HttpUser):
                     if result:
                         now = datetime.now()
                         log=f"{function_name}数据查询成功"
-                        file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_2][info][{log}]\n")
+                        file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_pod_2][info][{log}]\n")
                         logger.info(f"{function_name}数据查询成功")
-                        file2.write(f"{now}\t{self.node}\tabnormal_select_2\t'{sql0}'\t1\n")
+                        file2.write(f"{now}\t{self.node}\tabnormal_select_pod_2\t'{sql0}'\t1\n")
                     else:
                         now = datetime.now()
                         log=f"未查询到{function_name}数据"
-                        file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_2][info][{log}]\n")
+                        file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_pod_2][info][{log}]\n")
                         logger.info(f"未查询到{function_name}数据")
-                        file2.write(f"{now}\t{self.node}\tabnormal_select_2\t'{sql0}'\t1\n")
+                        file2.write(f"{now}\t{self.node}\tabnormal_select_pod_2\t'{sql0}'\t1\n")
             except MySQLError as e:
                 now = datetime.now()
                 log=f"{function_name}数据查询失败"
-                file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_2][error][{log}][{e}]\n")
+                file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_pod_2][error][{log}][{e}]\n")
                 logger.error(f"{function_name}数据查询失败: {e}")
-                file2.write(f"{now}\t{self.node}\tabnormal_select_2\t'{sql0}'\t1\n")
+                file2.write(f"{now}\t{self.node}\tabnormal_select_pod_2\t'{sql0}'\t1\n")
 
 
 
@@ -486,7 +486,7 @@ class MyUser(HttpUser):
             if self.db_conn is None:
                 now = datetime.now()
                 log="数据库连接未初始化"
-                file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_2][error][{log}]\n")
+                file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_pod_2][error][{log}]\n")
                 logger.error("数据库连接未初始化")
                 return
 
@@ -506,21 +506,21 @@ class MyUser(HttpUser):
                     if result:
                         now = datetime.now()
                         log=f"{function_name}数据查询成功"
-                        file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_2][info][{log}]\n")
+                        file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_pod_2][info][{log}]\n")
                         logger.info(f"{function_name}数据查询成功")
-                        file2.write(f"{now}\t{self.node}\tabnormal_select_2\t'{sql0}'\t1\n")
+                        file2.write(f"{now}\t{self.node}\tabnormal_select_pod_2\t'{sql0}'\t1\n")
                     else:
                         now = datetime.now()
                         log=f"未查询到{function_name}数据"
-                        file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_2][info][{log}]\n")
+                        file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_pod_2][info][{log}]\n")
                         logger.info(f"未查询到{function_name}数据")
-                        file2.write(f"{now}\t{self.node}\tabnormal_select_2\t'{sql0}'\t1\n")
+                        file2.write(f"{now}\t{self.node}\tabnormal_select_pod_2\t'{sql0}'\t1\n")
             except MySQLError as e:
                 now = datetime.now()
                 log=f"{function_name}数据查询失败"
-                file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_2][error][{log}][{e}]\n")
+                file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_pod_2][error][{log}][{e}]\n")
                 logger.error(f"{function_name}数据查询失败: {e}")
-                file2.write(f"{now}\t{self.node}\tabnormal_select_2\t'{sql0}'\t1\n")
+                file2.write(f"{now}\t{self.node}\tabnormal_select_pod_2\t'{sql0}'\t1\n")
 
 
     @task
@@ -530,7 +530,7 @@ class MyUser(HttpUser):
             if self.db_conn is None:
                 now = datetime.now()
                 log="数据库连接未初始化"
-                file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_2][error][{log}]\n")
+                file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_pod_2][error][{log}]\n")
                 logger.error("数据库连接未初始化")
                 return
 
@@ -546,21 +546,21 @@ class MyUser(HttpUser):
                     if result:
                         now = datetime.now()
                         log=f"{function_name}数据查询成功"
-                        file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_2][info][{log}]\n")
+                        file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_pod_2][info][{log}]\n")
                         logger.info(f"{function_name}数据查询成功")
-                        file2.write(f"{now}\t{self.node}\tabnormal_select_2\t'{sql}'\t1\n")
+                        file2.write(f"{now}\t{self.node}\tabnormal_select_pod_2\t'{sql}'\t1\n")
                     else:
                         now = datetime.now()
                         log=f"未查询到{function_name}数据"
-                        file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_2][info][{log}]\n")
+                        file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_pod_2][info][{log}]\n")
                         logger.info(f"未查询到{function_name}数据")
-                        file2.write(f"{now}\t{self.node}\tabnormal_select_2\t'{sql}'\t1\n")
+                        file2.write(f"{now}\t{self.node}\tabnormal_select_pod_2\t'{sql}'\t1\n")
             except MySQLError as e:
                 now = datetime.now()
                 log=f"{function_name}数据查询失败"
-                file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_2][error][{log}][{e}]\n")
+                file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_pod_2][error][{log}][{e}]\n")
                 logger.error(f"{function_name}数据查询失败: {e}")
-                file2.write(f"{now}\t{self.node}\tabnormal_select_2\t'{sql}'\t1\n")
+                file2.write(f"{now}\t{self.node}\tabnormal_select_pod_2\t'{sql}'\t1\n")
 
 
     @task
@@ -570,7 +570,7 @@ class MyUser(HttpUser):
             if self.db_conn is None:
                 now = datetime.now()
                 log="数据库连接未初始化"
-                file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_2][error][{log}]\n")
+                file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_pod_2][error][{log}]\n")
                 logger.error("数据库连接未初始化")
                 return
 
@@ -590,21 +590,21 @@ class MyUser(HttpUser):
                     if result:
                         now = datetime.now()
                         log=f"{function_name}数据查询成功"
-                        file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_2][info][{log}]\n")
+                        file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_pod_2][info][{log}]\n")
                         logger.info(f"{function_name}数据查询成功")
-                        file2.write(f"{now}\t{self.node}\tabnormal_select_2\t'{sql0}'\t1\n")
+                        file2.write(f"{now}\t{self.node}\tabnormal_select_pod_2\t'{sql0}'\t1\n")
                     else:
                         now = datetime.now()
                         log=f"未查询到{function_name}数据"
-                        file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_2][info][{log}]\n")
+                        file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_pod_2][info][{log}]\n")
                         logger.info(f"未查询到{function_name}数据")
-                        file2.write(f"{now}\t{self.node}\tabnormal_select_2\t'{sql0}'\t1\n")
+                        file2.write(f"{now}\t{self.node}\tabnormal_select_pod_2\t'{sql0}'\t1\n")
             except MySQLError as e:
                 now = datetime.now()
                 log=f"{function_name}数据查询失败"
-                file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_2][error][{log}][{e}]\n")
+                file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_pod_2][error][{log}][{e}]\n")
                 logger.error(f"{function_name}数据查询失败: {e}")
-                file2.write(f"{now}\t{self.node}\tabnormal_select_2\t'{sql0}'\t1\n")
+                file2.write(f"{now}\t{self.node}\tabnormal_select_pod_2\t'{sql0}'\t1\n")
 
 
     @task
@@ -614,7 +614,7 @@ class MyUser(HttpUser):
             if self.db_conn is None:
                 now = datetime.now()
                 log="数据库连接未初始化"
-                file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_2][error][{log}]\n")
+                file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_pod_2][error][{log}]\n")
                 logger.error("数据库连接未初始化")
                 return
 
@@ -634,21 +634,21 @@ class MyUser(HttpUser):
                     if result:
                         now = datetime.now()
                         log=f"{function_name}数据查询成功"
-                        file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_2][info][{log}]\n")
+                        file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_pod_2][info][{log}]\n")
                         logger.info(f"{function_name}数据查询成功")
-                        file2.write(f"{now}\t{self.node}\tabnormal_select_2\t'{sql0}'\t1\n")
+                        file2.write(f"{now}\t{self.node}\tabnormal_select_pod_2\t'{sql0}'\t1\n")
                     else:
                         now = datetime.now()
                         log=f"未查询到{function_name}数据"
-                        file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_2][info][{log}]\n")
+                        file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_pod_2][info][{log}]\n")
                         logger.info(f"未查询到{function_name}数据")
-                        file2.write(f"{now}\t{self.node}\tabnormal_select_2\t'{sql0}'\t1\n")
+                        file2.write(f"{now}\t{self.node}\tabnormal_select_pod_2\t'{sql0}'\t1\n")
             except MySQLError as e:
                 now = datetime.now()
                 log=f"{function_name}数据查询失败"
-                file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_2][error][{log}][{e}]\n")
+                file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_pod_2][error][{log}][{e}]\n")
                 logger.error(f"{function_name}数据查询失败: {e}")
-                file2.write(f"{now}\t{self.node}\tabnormal_select_2\t'{sql0}'\t1\n")
+                file2.write(f"{now}\t{self.node}\tabnormal_select_pod_2\t'{sql0}'\t1\n")
 
 
     @task
@@ -658,7 +658,7 @@ class MyUser(HttpUser):
             if self.db_conn is None:
                 now = datetime.now()
                 log="数据库连接未初始化"
-                file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_2][error][{log}]\n")
+                file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_pod_2][error][{log}]\n")
                 logger.error("数据库连接未初始化")
                 return
 
@@ -667,28 +667,28 @@ class MyUser(HttpUser):
                 with self.db_conn.cursor() as cursor:
                     # 查询数据的 SQL 语句
                     sql ="SELECT MAX(fare) AS max_amount FROM payments;"
-                    
+
                     # 执行查询操作
                     cursor.execute(sql)
                     result = cursor.fetchall()
                     if result:
                         now = datetime.now()
                         log=f"{function_name}数据查询成功"
-                        file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_2][info][{log}]\n")
+                        file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_pod_2][info][{log}]\n")
                         logger.info(f"{function_name}数据查询成功")
-                        file2.write(f"{now}\t{self.node}\tabnormal_select_2\t'{sql}'\t1\n")
+                        file2.write(f"{now}\t{self.node}\tabnormal_select_pod_2\t'{sql}'\t1\n")
                     else:
                         now = datetime.now()
                         log=f"未查询到{function_name}数据"
-                        file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_2][info][{log}]\n")
+                        file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_pod_2][info][{log}]\n")
                         logger.info(f"未查询到{function_name}数据")
-                        file2.write(f"{now}\t{self.node}\tabnormal_select_2\t'{sql}'\t1\n")
+                        file2.write(f"{now}\t{self.node}\tabnormal_select_pod_2\t'{sql}'\t1\n")
             except MySQLError as e:
                 now = datetime.now()
                 log=f"{function_name}数据查询失败"
-                file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_2][error][{log}][{e}]\n")
+                file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_pod_2][error][{log}][{e}]\n")
                 logger.error(f"{function_name}数据查询失败: {e}")
-                file2.write(f"{now}\t{self.node}\tabnormal_select_2\t'{sql}'\t1\n")
+                file2.write(f"{now}\t{self.node}\tabnormal_select_pod_2\t'{sql}'\t1\n")
 
 
     @task
@@ -698,7 +698,7 @@ class MyUser(HttpUser):
             if self.db_conn is None:
                 now = datetime.now()
                 log="数据库连接未初始化"
-                file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_2][error][{log}]\n")
+                file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_pod_2][error][{log}]\n")
                 logger.error("数据库连接未初始化")
                 return
 
@@ -714,21 +714,21 @@ class MyUser(HttpUser):
                     if result:
                         now = datetime.now()
                         log=f"{function_name}数据查询成功"
-                        file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_2][info][{log}]\n")
+                        file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_pod_2][info][{log}]\n")
                         logger.info(f"{function_name}数据查询成功")
-                        file2.write(f"{now}\t{self.node}\tabnormal_select_2\t'{sql}'\t1\n")
+                        file2.write(f"{now}\t{self.node}\tabnormal_select_pod_2\t'{sql}'\t1\n")
                     else:
                         now = datetime.now()
                         log=f"未查询到{function_name}数据"
-                        file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_2][info][{log}]\n")
+                        file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_pod_2][info][{log}]\n")
                         logger.info(f"未查询到{function_name}数据")
-                        file2.write(f"{now}\t{self.node}\tabnormal_select_2\t'{sql}'\t1\n")
+                        file2.write(f"{now}\t{self.node}\tabnormal_select_pod_2\t'{sql}'\t1\n")
             except MySQLError as e:
                 now = datetime.now()
                 log=f"{function_name}数据查询失败"
-                file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_2][error][{log}][{e}]\n")
+                file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_pod_2][error][{log}][{e}]\n")
                 logger.error(f"{function_name}数据查询失败: {e}")
-                file2.write(f"{now}\t{self.node}\tabnormal_select_2\t'{sql}'\t1\n")
+                file2.write(f"{now}\t{self.node}\tabnormal_select_pod_2\t'{sql}'\t1\n")
 
 
 
@@ -739,7 +739,7 @@ class MyUser(HttpUser):
             if self.db_conn is None:
                 now = datetime.now()
                 log="数据库连接未初始化"
-                file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_2][error][{log}]\n")
+                file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_pod_2][error][{log}]\n")
                 logger.error("数据库连接未初始化")
                 return
 
@@ -759,21 +759,21 @@ class MyUser(HttpUser):
                     if result:
                         now = datetime.now()
                         log=f"{function_name}数据查询成功"
-                        file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_2][info][{log}]\n")
+                        file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_pod_2][info][{log}]\n")
                         logger.info(f"{function_name}数据查询成功")
-                        file2.write(f"{now}\t{self.node}\tabnormal_select_2\t'{sql0}'\t1\n")
+                        file2.write(f"{now}\t{self.node}\tabnormal_select_pod_2\t'{sql0}'\t1\n")
                     else:
                         now = datetime.now()
                         log=f"未查询到{function_name}数据"
-                        file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_2][info][{log}]\n")
+                        file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_pod_2][info][{log}]\n")
                         logger.info(f"未查询到{function_name}数据")
-                        file2.write(f"{now}\t{self.node}\tabnormal_select_2\t'{sql0}'\t1\n")
+                        file2.write(f"{now}\t{self.node}\tabnormal_select_pod_2\t'{sql0}'\t1\n")
             except MySQLError as e:
                 now = datetime.now()
                 log=f"{function_name}数据查询失败"
-                file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_2][error][{log}][{e}]\n")
+                file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_pod_2][error][{log}][{e}]\n")
                 logger.error(f"{function_name}数据查询失败: {e}")
-                file2.write(f"{now}\t{self.node}\tabnormal_select_2\t'{sql0}'\t1\n")
+                file2.write(f"{now}\t{self.node}\tabnormal_select_pod_2\t'{sql0}'\t1\n")
 
 
 
@@ -784,7 +784,7 @@ class MyUser(HttpUser):
             if self.db_conn is None:
                 now = datetime.now()
                 log="数据库连接未初始化"
-                file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_2][error][{log}]\n")
+                file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_pod_2][error][{log}]\n")
                 logger.error("数据库连接未初始化")
                 return
 
@@ -804,21 +804,21 @@ class MyUser(HttpUser):
                     if result:
                         now = datetime.now()
                         log=f"{function_name}数据查询成功"
-                        file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_2][info][{log}]\n")
+                        file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_pod_2][info][{log}]\n")
                         logger.info(f"{function_name}数据查询成功")
-                        file2.write(f"{now}\t{self.node}\tabnormal_select_2\t'{sql0}'\t1\n")
+                        file2.write(f"{now}\t{self.node}\tabnormal_select_pod_2\t'{sql0}'\t1\n")
                     else:
                         now = datetime.now()
                         log=f"未查询到{function_name}数据"
-                        file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_2][info][{log}]\n")
+                        file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_pod_2][info][{log}]\n")
                         logger.info(f"未查询到{function_name}数据")
-                        file2.write(f"{now}\t{self.node}\tabnormal_select_2\t'{sql0}'\t1\n")
+                        file2.write(f"{now}\t{self.node}\tabnormal_select_pod_2\t'{sql0}'\t1\n")
             except MySQLError as e:
                 now = datetime.now()
                 log=f"{function_name}数据查询失败"
-                file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_2][error][{log}][{e}]\n")
+                file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_pod_2][error][{log}][{e}]\n")
                 logger.error(f"{function_name}数据查询失败: {e}")
-                file2.write(f"{now}\t{self.node}\tabnormal_select_2\t'{sql0}'\t1\n")
+                file2.write(f"{now}\t{self.node}\tabnormal_select_pod_2\t'{sql0}'\t1\n")
 
 
     @task
@@ -828,7 +828,7 @@ class MyUser(HttpUser):
             if self.db_conn is None:
                 now = datetime.now()
                 log="数据库连接未初始化"
-                file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_2][error][{log}]\n")
+                file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_pod_2][error][{log}]\n")
                 logger.error("数据库连接未初始化")
                 return
 
@@ -848,21 +848,21 @@ class MyUser(HttpUser):
                     if result:
                         now = datetime.now()
                         log=f"{function_name}数据查询成功"
-                        file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_2][info][{log}]\n")
+                        file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_pod_2][info][{log}]\n")
                         logger.info(f"{function_name}数据查询成功")
-                        file2.write(f"{now}\t{self.node}\tabnormal_select_2\t'{sql0}'\t1\n")
+                        file2.write(f"{now}\t{self.node}\tabnormal_select_pod_2\t'{sql0}'\t1\n")
                     else:
                         now = datetime.now()
                         log=f"未查询到{function_name}数据"
-                        file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_2][info][{log}]\n")
+                        file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_pod_2][info][{log}]\n")
                         logger.info(f"未查询到{function_name}数据")
-                        file2.write(f"{now}\t{self.node}\tabnormal_select_2\t'{sql0}'\t1\n")
+                        file2.write(f"{now}\t{self.node}\tabnormal_select_pod_2\t'{sql0}'\t1\n")
             except MySQLError as e:
                 now = datetime.now()
                 log=f"{function_name}数据查询失败"
-                file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_2][error][{log}][{e}]\n")
+                file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_pod_2][error][{log}][{e}]\n")
                 logger.error(f"{function_name}数据查询失败: {e}")
-                file2.write(f"{now}\t{self.node}\tabnormal_select_2\t'{sql0}'\t1\n")
+                file2.write(f"{now}\t{self.node}\tabnormal_select_pod_2\t'{sql0}'\t1\n")
 
 
     @task
@@ -872,7 +872,7 @@ class MyUser(HttpUser):
             if self.db_conn is None:
                 now = datetime.now()
                 log="数据库连接未初始化"
-                file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_2][error][{log}]\n")
+                file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_pod_2][error][{log}]\n")
                 logger.error("数据库连接未初始化")
                 return
 
@@ -892,52 +892,21 @@ class MyUser(HttpUser):
                     if result:
                         now = datetime.now()
                         log=f"{function_name}数据查询成功"
-                        file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_2][info][{log}]\n")
+                        file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_pod_2][info][{log}]\n")
                         logger.info(f"{function_name}数据查询成功")
-                        file2.write(f"{now}\t{self.node}\tabnormal_select_2\t'{sql0}'\t1\n")
+                        file2.write(f"{now}\t{self.node}\tabnormal_select_pod_2\t'{sql0}'\t1\n")
                     else:
                         now = datetime.now()
                         log=f"未查询到{function_name}数据"
-                        file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_2][info][{log}]\n")
+                        file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_pod_2][info][{log}]\n")
                         logger.info(f"未查询到{function_name}数据")
-                        file2.write(f"{now}\t{self.node}\tabnormal_select_2\t'{sql0}'\t1\n")
+                        file2.write(f"{now}\t{self.node}\tabnormal_select_pod_2\t'{sql0}'\t1\n")
             except MySQLError as e:
                 now = datetime.now()
                 log=f"{function_name}数据查询失败"
-                file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_2][error][{log}][{e}]\n")
+                file.write(f"[{now}][{self.node}][database_abnormal][abnormal_select_pod_2][error][{log}][{e}]\n")
                 logger.error(f"{function_name}数据查询失败: {e}")
-                file2.write(f"{now}\t{self.node}\tabnormal_select_2\t'{sql0}'\t1\n")
+                file2.write(f"{now}\t{self.node}\tabnormal_select_pod_2\t'{sql0}'\t1\n")
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
 

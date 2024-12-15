@@ -11,4 +11,4 @@ spec:
     cpu:
       workers: 4
       load: 50
-  duration: '30s'
+  duration: '300s'

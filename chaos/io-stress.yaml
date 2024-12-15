@@ -12,4 +12,4 @@ spec:
   path: '/var/lib/mysql/**/*'
   delay: '100ms'
   percent: 50
-  duration: '30s'
+  duration: '300s'
