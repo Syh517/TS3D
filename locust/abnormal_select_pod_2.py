@@ -22,7 +22,7 @@ class MyUser(HttpUser):
 
     def on_start(self):
         # 初始化数据库连接
-        self.node="10.244.0.34:3306"
+        self.node="10.244.0.20:3306"
         self.db_conn = self.create_db_connection()
 
     def on_stop(self):
@@ -37,8 +37,8 @@ class MyUser(HttpUser):
         with open("/home/yyy/mysql/data/logs/logs.txt",'a') as file:
             try:
                 conn = pymysql.connect(
-                    host=self.get_config("DB_HOST", "127.0.0.1"),
-                    port=int(self.get_config("DB_PORT", 3308)),
+                    host=self.get_config("DB_HOST", "172.18.0.2"),
+                    port=int(self.get_config("DB_PORT", 32301)),
                     user=self.get_config("DB_USER", "root"),
                     password=self.get_config("DB_PASSWORD", ""),
                     database="taxi",

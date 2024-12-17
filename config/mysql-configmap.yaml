@@ -16,7 +16,9 @@ data:
     innodb_flush_log_at_trx_commit = 2
     slow_query_log = 1
     long_query_time = 2
-
+    max_allowed_packet = 20971520
+    wait_timeout = 864000
+    interactive_timeout = 864000
 
   slave.cnf: |
     # Apply this config only on slaves.
@@ -29,6 +31,9 @@ data:
     innodb_flush_log_at_trx_commit = 2
     slow_query_log = 1
     long_query_time = 2
+    max_allowed_packet = 20971520
+    wait_timeout = 864000
+    interactive_timeout = 864000
     
   .my.cnf: |
     [client]

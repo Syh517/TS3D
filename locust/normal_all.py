@@ -25,7 +25,7 @@ class MyUser(HttpUser):
 
     def on_start(self):
         # 初始化数据库连接
-        self.node="10.244.0.30:3306"
+        self.node="10.244.0.16:3306"
         self.db_conn = self.create_db_connection()
 
     def on_stop(self):
@@ -40,8 +40,8 @@ class MyUser(HttpUser):
         with open("/home/yyy/mysql/data/logs/logs.txt",'a') as file:
             try:
                 conn = pymysql.connect(
-                    host=self.get_config("DB_HOST", "127.0.0.1"),
-                    port=int(self.get_config("DB_PORT", 3306)),
+                    host=self.get_config("DB_HOST", "172.18.0.2"), 
+                    port=int(self.get_config("DB_PORT", 31280)),
                     user=self.get_config("DB_USER", "root"),
                     password=self.get_config("DB_PASSWORD", ""),
                     database="taxi",
@@ -719,7 +719,7 @@ class MyUser(HttpUser):
                 self.db_conn.rollback()
                 file2.write(f"{now}\t{self.node}\tnormal_all\t'{sql0}'\t0\n")
 
-    @task(6)
+    @task(5)
     def select_drivers(self):
         with open("/home/yyy/mysql/data/logs/logs.txt",'a') as file, open("/home/yyy/mysql/data/logs/sqls.txt",'a') as file2:
             # 执行数据库查询测试逻辑
@@ -763,7 +763,7 @@ class MyUser(HttpUser):
                 file2.write(f"{now}\t{self.node}\tnormal_all\t'{sql}'\t0\n")
 
 
-    @task(6)
+    @task(5)
     def select_users(self):
         with open("/home/yyy/mysql/data/logs/logs.txt",'a') as file, open("/home/yyy/mysql/data/logs/sqls.txt",'a') as file2:
             # 执行数据库查询测试逻辑
@@ -807,7 +807,7 @@ class MyUser(HttpUser):
                 file2.write(f"{now}\t{self.node}\tnormal_all\t'{sql}'\t0\n")
 
     
-    @task(6)
+    @task(5)
     def select_orders(self):
         with open("/home/yyy/mysql/data/logs/logs.txt",'a') as file, open("/home/yyy/mysql/data/logs/sqls.txt",'a') as file2:
             # 执行数据库查询测试逻辑
@@ -850,7 +850,7 @@ class MyUser(HttpUser):
                 logger.error(f"order数据查询失败: {e}")
                 file2.write(f"{now}\t{self.node}\tnormal_all\t'{sql}'\t0\n")
 
-    @task(6)
+    @task(5)
     def select_payments(self):
         with open("/home/yyy/mysql/data/logs/logs.txt",'a') as file, open("/home/yyy/mysql/data/logs/sqls.txt",'a') as file2:
             # 执行数据库查询测试逻辑

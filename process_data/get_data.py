@@ -286,6 +286,9 @@ scheduler = BackgroundScheduler()
 
 
 def init():
+    pkill_commond = "pkill -f kubectl"
+    run_command(pkill_commond)
+
     if not os.path.exists("data/metrics"):
         os.makedirs("data/metrics")
         

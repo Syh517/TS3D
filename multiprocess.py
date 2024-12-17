@@ -14,10 +14,6 @@ def run_command(command):
 
 if __name__ == '__main__':
 
-    pkill_commond = "pkill -f kubectl"
-    run_command(pkill_commond)
-
-
     # 创建两个进程
     p1 = multiprocessing.Process(target=run_script, args=('execute.py',))
     p2 = multiprocessing.Process(target=run_script, args=('process_data/get_data.py',))

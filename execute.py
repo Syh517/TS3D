@@ -19,8 +19,8 @@ def run_command(command):
 
 
 # 正常
-normal_all_commond="locust -f locust/normal_all.py --headless -u 50 -r 10 -t 60s"
-normal_select_commond="locust -f locust/normal_select.py --headless -u 50 -r 10 -t 60s"
+normal_all_commond="locust -f locust/normal_all.py --headless -u 50 -r 5 -t 60s"
+normal_select_commond="locust -f locust/normal_select.py --headless -u 50 -r 5 -t 60s"
 pkill_locust="pkill -9 locust"
 
 def normal_all():
@@ -28,7 +28,7 @@ def normal_all():
         function_name="normal_all"
         print(f"{function_name} executed at {datetime.datetime.now()}")
         begin_time=datetime.datetime.now()
-        file.write(f"[normal_all][{begin_time}][{function_name}]\n")
+        file.write(f"[normal][{begin_time}][{function_name}]\n")
         run_command(normal_all_commond)
 
 def normal_select():
@@ -36,17 +36,17 @@ def normal_select():
         function_name="normal_select"
         print(f"{function_name} executed at {datetime.datetime.now()}")
         begin_time=datetime.datetime.now()
-        file.write(f"[normal_select][{begin_time}][{function_name}]\n")
+        file.write(f"[normal][{begin_time}][{function_name}]\n")
         run_command(normal_select_commond)
 
 
 
 # 数据库异常
-abnormal_insert_commond="locust -f locust/abnormal_insert.py --headless -u 100 -r 10 -t 120s"
+abnormal_insert_commond="locust -f locust/abnormal_insert.py --headless -u 50 -r 5 -t 120s"
 abnormal_select_1_commond="locust -f locust/abnormal_select_1.py --headless -u 100 -r 100 -t 120s"
 abnormal_select_2_commond="locust -f locust/abnormal_select_2.py --headless -u 100 -r 100 -t 120s"
 abnormal_api_commond="locust -f locust/abnormal_api.py --headless -u 100 -r 100 -t 30s"
-abnormal_deadlock_commond="locust -f locust/abnormal_deadlock.py --headless -u 100 -r 10 -t 120s"
+abnormal_deadlock_commond="locust -f locust/abnormal_deadlock.py --headless -u 50 -r 5 -t 120s"
 abnormal_frequency_commond="locust -f locust/abnormal_frequency.py --headless -u 10000 -r 100 -t 60s"
 
 abnormal_select_pod_1_commond="locust -f locust/abnormal_select_pod_1.py --headless -u 100 -r 100 -t 120s"
@@ -351,7 +351,7 @@ def execute_database_abnormal_selects_2():
 
 
 
-# 清空所有执行列表、停止所有系统异常、转发mysql pod端口
+# 清空所有执行列表、停止所有系统异常
 def init():
     executed_database_abnormal.clear()
     executed_database_abnormal_selects.clear()
@@ -375,26 +375,6 @@ def init():
     with open("/home/yyy/mysql/data/logs/sqls.txt",'w') as file2:
         pass
 
-    mysql_0_connect="kubectl port-forward pod/mysql-0 3306:3306 &"
-    run_command(mysql_0_connect)
-
-    mysql_1_connect="kubectl port-forward pod/mysql-1 3307:3306 &"
-    run_command(mysql_1_connect)
-
-    mysql_2_connect="kubectl port-forward pod/mysql-2 3308:3306 &"
-    run_command(mysql_2_connect)
-
-    mysql_3_connect="kubectl port-forward pod/mysql-3 3309:3306 &"
-    run_command(mysql_3_connect)
-
-    mysql_4_connect="kubectl port-forward pod/mysql-4 3305:3306 &"
-    run_command(mysql_4_connect)
-
-    mysql_5_connect="kubectl port-forward pod/mysql-5 3304:3306 &"
-    run_command(mysql_5_connect)
-
-    mysql_6_connect="kubectl port-forward pod/mysql-6 3303:3306 &"
-    run_command(mysql_6_connect)
 
     
 
@@ -413,8 +393,8 @@ def add_jobs():
         scheduler.add_job(execute_database_abnormal_selects_1, 'cron', hour=hour, minute='*/5')
     for hour in range(14, 17):
         scheduler.add_job(execute_system_abnormal, 'cron', hour=hour, minute='*/10')
-        scheduler.add_job(execute_database_abnormal_selects_1, 'cron', hour=hour, minute='*/5')
-        scheduler.add_job(execute_database_abnormal_selects_2, 'cron', hour=hour, minute='*/5')
+        scheduler.add_job(execute_database_abnormal_selects_1, 'cron', hour=hour, minute='*/10')
+        # scheduler.add_job(execute_database_abnormal_selects_2, 'cron', hour=hour, minute='*/10')
     for hour in range(19, 21):
         scheduler.add_job(execute_database_abnormal, 'cron', hour=hour, minute='*/5')
         scheduler.add_job(execute_database_abnormal_selects_1, 'cron', hour=hour, minute='*/5')
@@ -422,8 +402,8 @@ def add_jobs():
     # 添加任务，在其他时间执行正常函数
     normal_hours = list(range(0, 10)) + list(range(12, 14)) + list(range(17, 19)) + list(range(21, 24))
     for hour in normal_hours:
-        scheduler.add_job(normal_all, 'cron', hour=hour, minute='*/5')
-        scheduler.add_job(normal_select, 'cron', hour=hour, minute='*/5')
+        scheduler.add_job(normal_all, 'cron', hour=hour, minute='*/10')
+        scheduler.add_job(normal_select, 'cron', hour=hour, minute='*/10')
 
 def execute():
 
